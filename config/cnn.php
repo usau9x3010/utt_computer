@@ -45,11 +45,12 @@ class Connect
         $data_update_col = implode(",", $data_update_col);
         $sql .= $data_update_col;
         if ($conditions != '') {
-            $sql .= $data_update_col . " WHERE " . $conditions;
+            $sql .=  " WHERE " . $conditions;
         }
         $query = $this->_cnn->query($sql);
         if (!$query) {
-            echo mysqli_error();
+            echo mysqli_error($this->_cnn);
+            echo $sql;
         }
     }
 
@@ -69,12 +70,12 @@ class Connect
         }
         $sql = "SELECT {$cols} FROM {$table} ";
         if ($condition != '') {
-            $sql .= $condition;
+            $sql .= " WHERE " . $condition;
         }
         $data = array();
         $result = $this->_cnn->query($sql);
         if (!$result) {
-            echo mysqli_error();
+            echo mysqli_error($this->_cnn);
         } else {
             while ($row = $result->fetch_array()) {
                 $data[] = $row;

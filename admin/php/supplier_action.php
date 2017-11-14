@@ -1,29 +1,24 @@
 <?php
 include "../config/cnn.php";
 $db = new Connect();
-$data = $db->select('cau_hinh');
+$id = isset($_GET['id'])?isset($_GET['id']):false;
+$id = 1;
+$condition='';
+if ($id) {
+	$condition = " `id_ncc` = '{$id}'";
+}
+$data = $db->select('ncc');
 if ($_POST) {
     $data_post = $_POST;
-    if ($_FILES['logo']['name'] != NULL) {
-        $path = "../img/page/";
-        $tmp_name = $_FILES['logo']['tmp_name'];
-        $name = $_FILES['logo']['name'];
-        $type_img = explode(".", $name)[1];
-        $new_name = 'logo.' . $type_img;
-        if (file_exists($path . $new_name)) {
-            unlink($path . $new_name);
-        }
-        move_uploaded_file($tmp_name, $path . $new_name);
-        $data_post['logo'] = $path . $new_name;
-    }
-    if (count($data) != 0) {
-        $db->update('cau_hinh', $data_post);
+    $data_post['loai'] = implode("-", $data_post['loai']);
+    if ($id) {
+        $db->update('ncc', $data_post,$condition);
     } else {
-        $db->insert('cau_hinh', $data_post);
+        $db->insert('ncc', $data_post);
     }
 
 }
-$data = $db->select('cau_hinh');
+$data = $db->select('ncc','*',$condition);
 if (count($data) != 0) {
     $data = $data[0];
 }
@@ -64,11 +59,11 @@ if (count($data) != 0) {
         <!-- BEGIN PAGE CONTENT-->
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal form-row-seperated" action="" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal form-row-seperated" action="" method="post">
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-shopping-cart"></i>Thông tin trang web
+                                <i class="fa fa-shopping-cart"></i>Thông tin nhà cung cấp
                             </div>
                             <div class="actions btn-set">
                                 <button type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i>
@@ -83,7 +78,7 @@ if (count($data) != 0) {
                                 <ul class="nav nav-tabs">
                                     <li class="active">
                                         <a href="#tab_general" data-toggle="tab">
-                                            Thông tin trang web
+                                            Thông tin nhà cung cấp
                                         </a>
                                     </li>
                                 </ul>
@@ -91,46 +86,28 @@ if (count($data) != 0) {
                                     <div class="tab-pane active" id="tab_general">
                                         <div class="form-body">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label">Tiêu đề:
+                                                <label class="col-md-2 control-label">Tên nhà cung cấp:
                                                     <span class="required">
 														 *
 													</span>
                                                 </label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" name="tieu_de" placeholder=""
-                                                           value="<?php echo(count($data) ? $data['tieu_de'] : '') ?>"
+                                                    <input type="text" class="form-control" name="ten_ncc" placeholder=""
+                                                           value="<?php echo(count($data) ? $data['ten_ncc'] : '') ?>"
                                                            required
-                                                           oninvalid="this.setCustomValidity('Xin mời nhập tiêu đề trang web')"
+                                                           oninvalid="this.setCustomValidity('Xin mời nhập tên nhà cung cấp')"
                                                            oninput="setCustomValidity('')">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label">Logo:
-                                                    <span class="required">
-														 *
-													</span>
+                                                <label class="col-md-2 control-label">Địa chỉ
                                                 </label>
                                                 <div class="col-md-10">
-                                                    <input type="file" class="form-control" name="logo" placeholder=""
-                                                           accept="image/*" <?php echo ($data['logo']!=''?"":"required");?>
-                                                           oninvalid="this.setCustomValidity('Xin mời chọn ảnh')"
+                                                    <input type="text" class="form-control" name="dia_chi" placeholder=""
+                                                           value="<?php echo(count($data) ? $data['dia_chi'] : '') ?>"
+                                                           required
+                                                           oninvalid="this.setCustomValidity('Xin mời nhập địa chỉ nhà cung cấp')"
                                                            oninput="setCustomValidity('')">
-                                                    <span class="help-block">
-															<a href="<?php echo $data['logo'] ?>"
-                                                               class="fancybox-button" data-rel="fancybox-button">
-																<img class="img-responsive"
-                                                                     src="<?php echo $data['logo'] ?>" alt=""
-                                                                     style="width: 100px">
-															</a>
-														</span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-2 control-label">Thông tin công ty:
-                                                </label>
-                                                <div class="col-md-10">
-                                                    <textarea class="form-control"
-                                                              name="mo_ta"><?php echo(count($data) ? $data['mo_ta'] : '') ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -151,13 +128,30 @@ if (count($data) != 0) {
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label">Địa chỉ:
+                                            	<?php 
+                                               	if(count($data)){
+                                               		$check_box = explode("-", $data['loai']);
+                                               		$checked  = array();
+                                               		$checked[1] ='';
+                                               		$checked[2] ='';
+                                               		if (in_array(1, $check_box)) {
+                                               			$checked[1] ="checked";
+                                               		}
+                                               		if (in_array(2, $check_box)) {
+                                               			$checked[2] ="checked";
+                                               		}
+
+                                               	}
+                                               	 ?> 
+												<label class="col-md-2 control-label">Cung cấp:
                                                 </label>
-                                                <div class="col-md-10">
-                                                    <textarea class="form-control"
-                                                              name="dia_chi"><?php echo(count($data) ? $data['dia_chi'] : '') ?></textarea>
-                                                </div>
-                                            </div>
+												<div class="checkbox-list">
+													<label class="checkbox-inline">
+													<input type="checkbox" name="loai[]" value="1" <?php echo(count($data) ? $checked[1] : '') ?> > Cung cấp máy tính</label>
+													<label class="checkbox-inline">
+													<input type="checkbox" name="loai[]" value="2" <?php echo(count($data) ? $checked[2] : '') ?> > Cung cấp linh kiện điển tử </label>
+												</div>
+											</div>
                                         </div>
                                     </div>
                                 </div>
