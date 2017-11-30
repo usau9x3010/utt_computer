@@ -31,7 +31,7 @@ class Connect
         $sql .= $col . " VALUE " . $vcol;
         $query = $this->_cnn->query($sql);
         if (!$query) {
-            echo mysqli_error();
+            echo mysqli_error($this->_cnn);
         }
     }
 
@@ -59,11 +59,11 @@ class Connect
         $sql = "DELETE FROM `{$table}` WHERE " . $condition;
         $query = $this->_cnn->query($sql);
         if (!$query) {
-            echo mysqli_error();
+            echo mysqli_error($this->_cnn);
         }
     }
 
-    function select($table, $cols = '*', $condition = '')
+    function select($table, $cols = '*', $condition = '',$limit = '')
     {
         if (is_array($cols)) {
             $cols = implode(",", $cols);
@@ -71,6 +71,9 @@ class Connect
         $sql = "SELECT {$cols} FROM {$table} ";
         if ($condition != '') {
             $sql .= " WHERE " . $condition;
+        }
+        if ($limit != '') {
+            $sql .= " LIMIT " . $limit;
         }
         $data = array();
         $result = $this->_cnn->query($sql);

@@ -7,23 +7,22 @@ if ($id) {
 	$condition = " `id` = '{$id}'";
 }
 if(isset($_GET['action']) && $_GET['action']=='del'){
-    $db->delete('ncc',$condition);
-    echo '<script>window.location.href = "home.php?page=supplier&action=1"</script>';
+    $db->delete('danh_muc',$condition);
+    echo '<script>window.location.href = "home.php?page=category&action=1"</script>';
 }
 if ($_POST) {
     $data_post = $_POST;
-    $data_post['loai'] = implode("-", $data_post['loai']);
     if ($id) {
-        $db->update('ncc', $data_post,$condition);
+        $db->update('danh_muc', $data_post,$condition);
     } else {
-        $db->insert('ncc', $data_post);
+        $db->insert('danh_muc', $data_post);
     }
-    echo '<script>window.location.href = "home.php?page=supplier&action=1"</script>';
+    echo '<script>window.location.href = "home.php?page=category&action=1"</script>';
 
 }
 $data =array();
 if($condition!=''){
-    $data = $db->select('ncc','*',$condition);
+    $data = $db->select('danh_muc','*',$condition);
     if (count($data) != 0) {
         $data = $data[0];
     }
@@ -37,8 +36,8 @@ if($condition!=''){
             <div class="col-md-12">
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                 <h3 class="page-title">
-                    Cấu hình
-                    <small>thông tin website</small>
+        
+                    <small>Danh mục</small>
                 </h3>
                 <ul class="page-breadcrumb breadcrumb">
                     <li>
@@ -50,13 +49,13 @@ if($condition!=''){
                     </li>
                     <li>
                         <a href="#">
-                            Cài đặt
+                            Quản lý danh mục
                         </a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
                         <a href="#">
-                            Thông tin trang web
+                            Danh mục
                         </a>
                     </li>
                 </ul>
@@ -67,11 +66,11 @@ if($condition!=''){
         <!-- BEGIN PAGE CONTENT-->
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal form-row-seperated" action="home.php?page=supplier_action&action=edit&id=<?php echo $id;?>" method="post">
+                <form class="form-horizontal form-row-seperated" action="home.php?page=category_action&action=edit&id=<?php echo $id;?>" method="post">
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-shopping-cart"></i>Thông tin nhà cung cấp
+                                <i class="fa fa-shopping-cart"></i>Thông tin danh mục
                             </div>
                             <div class="actions btn-set">
                                 <button type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i>
@@ -86,7 +85,7 @@ if($condition!=''){
                                 <ul class="nav nav-tabs">
                                     <li class="active">
                                         <a href="#tab_general" data-toggle="tab">
-                                            Thông tin nhà cung cấp
+                                            Thông tin danh mục
                                         </a>
                                     </li>
                                 </ul>
@@ -94,7 +93,7 @@ if($condition!=''){
                                     <div class="tab-pane active" id="tab_general">
                                         <div class="form-body">
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label">Tên nhà cung cấp:
+                                                <label class="col-md-2 control-label">Tên danh mục:
                                                     <span class="required">
 														 *
 													</span>
@@ -103,42 +102,15 @@ if($condition!=''){
                                                     <input type="text" class="form-control" name="ten" placeholder=""
                                                            value="<?php echo(count($data) ? $data['ten'] : '') ?>"
                                                            required
-                                                           oninvalid="this.setCustomValidity('Xin mời nhập tên nhà cung cấp')"
+                                                           oninvalid="this.setCustomValidity('Xin mời nhập tên danh mục')"
                                                            oninput="setCustomValidity('')">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-2 control-label">Địa chỉ
-                                                </label>
-                                                <div class="col-md-10">
-                                                    <input type="text" class="form-control" name="dia_chi" placeholder=""
-                                                           value="<?php echo(count($data) ? $data['dia_chi'] : '') ?>"
-                                                           required
-                                                           oninvalid="this.setCustomValidity('Xin mời nhập địa chỉ nhà cung cấp')"
-                                                           oninput="setCustomValidity('')">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-2 control-label">Số điện thoại:
-                                                </label>
-                                                <div class="col-md-10">
-                                                    <input type="text" name="sdt" class="form-control"
-                                                           value="<?php echo(count($data) ? $data['sdt'] : '') ?>">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-2 control-label">Email:
-                                                    </span>
-                                                </label>
-                                                <div class="col-md-10">
-                                                    <input type="email" name="email" class="form-control"
-                                                           value="<?php echo(count($data) ? $data['email'] : '') ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                             	<?php 
+                                                $checked[1] ="checked";
                                                	if(count($data)){
-                                               		$check_box = explode("-", $data['loai']);
+                                               		$check_box =array($data['loai']);
                                                		$checked  = array();
                                                		$checked[1] ='';
                                                		$checked[2] ='';
@@ -153,11 +125,11 @@ if($condition!=''){
                                                	 ?> 
 												<label class="col-md-2 control-label">Cung cấp:
                                                 </label>
-												<div class="checkbox-list">
-													<label class="checkbox-inline">
-													<input type="checkbox" name="loai[]" value="1" <?php echo(count($data) ? $checked[1] : '') ?> > Cung cấp máy tính</label>
-													<label class="checkbox-inline">
-													<input type="checkbox" name="loai[]" value="2" <?php echo(count($data) ? $checked[2] : '') ?> > Cung cấp linh kiện điển tử </label>
+												<div class="radio-list">
+													<label class="radio-inline">
+													<input type="radio" name="loai" value="1" <?php echo $checked[1] ?> > Danh mục máy tính</label>
+													<label class="radio-inline">
+													<input type="radio" name="loai" value="2" <?php echo(count($data) ? $checked[2] : '') ?> > Danh mục linh kiện điển tử </label>
 												</div>
 											</div>
                                         </div>

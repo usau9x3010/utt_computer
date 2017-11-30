@@ -4,7 +4,7 @@
 				<div class="col-md-12">
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title">
-					Danh sách<small> Nhà cung cấp</small>
+					Danh sách<small> User</small>
 					</h3>
 					<ul class="page-breadcrumb breadcrumb">
 						<li>
@@ -16,7 +16,7 @@
 						</li>
 						<li>
 							<a href="#">
-								Quản lý nhà cung cấp
+								Quản lý User 
 							</a>
 						</li>
 					</ul>
@@ -35,37 +35,13 @@
 					<div class="portlet">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i>Nhà cung cấp
+								<i class="fa fa-gift"></i>User
 							</div>
 							<div class="actions">
 								<div class="btn-group">
-									<a class="btn btn-primary" href="home.php?page=supplier_action">
-										Thêm mới nhà cung cấp
+									<a class="btn btn-primary" href="home.php?page=user_action">
+										Thêm mới User
 									</a>
-									<!-- <ul class="dropdown-menu pull-right">
-										<li>
-											<a href="#">
-												 Export to Excel
-											</a>
-										</li>
-										<li>
-											<a href="#">
-												 Export to CSV
-											</a>
-										</li>
-										<li>
-											<a href="#">
-												 Export to XML
-											</a>
-										</li>
-										<li class="divider">
-										</li>
-										<li>
-											<a href="#">
-												 Print Invoices
-											</a>
-										</li>
-									</ul> -->
 								</div>
 							</div>
 						</div>
@@ -82,7 +58,7 @@
 									</select>
 									<button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Thực hiện</button>
 								</div>
-								<table class="table table-striped table-bordered table-hover" id="datatable_supplier">
+								<table class="table table-striped table-bordered table-hover" id="datatable_user">
 								<thead>
 								<tr role="row" class="heading">
 									<th width="1%">
@@ -92,48 +68,46 @@
 										 ID
 									</th>
 									<th width="15%">
-										 Tên nhà cung cấp
-									</th>
-									<th width="15%">
-										 Địa chỉ
+										 Tên nhà user
 									</th>
 									<th width="10%">
 										 Email
 									</th>
 									<th width="10%">
-										 SĐT
+										Địa chỉ
 									</th>
 									<th width="10%">
-										Cung cấp
+										SĐT
 									</th>
 									<th width="10%">
-										 Actions
+										Quyền hạn
+									</th>
+									<th width="10%">
 									</th>
 								</tr>
 								<tr role="row" class="filter">
 									<td>
 									</td>
 									<td>
-										<input type="text" class="form-control form-filter input-sm" name="search[id_ncc]">
+										<input type="text" class="form-control form-filter input-sm" name="search[id]">
 									</td>
 									<td>
-										<input type="text" class="form-control form-filter input-sm" name="search[ten_ncc]">
-									</td>
-									<td>
-										<input type="text" class="form-control form-filter input-sm" name="search[dia_chi]">
-									</td>
-									<td>
-										<input type="text" class="form-control form-filter input-sm" name="search[sdt]">
+										<input type="text" class="form-control form-filter input-sm" name="search[ten]">
 									</td>
 									<td>
 										<input type="text" class="form-control form-filter input-sm" name="search[email]">
 									</td>
 									<td>
-										<select name="search[loai]" class="form-control form-filter input-sm">
+										<input type="text" class="form-control form-filter input-sm" name="search[diachi]">
+									</td>
+									<td>
+										<input type="text" class="form-control form-filter input-sm" name="search[sdt]">
+									</td>
+									<td>
+										<select name="search[quyen]" class="form-control form-filter input-sm">
 											<option value="">Xin chọn...</option>
-											<option value="1">Máy tính</option>
-											<option value="2">Linh kiện</option>
-											<option value="1-2">Cả hai</option>
+											<option value="1">Quản lý</option>
+											<option value="2">Nhân viên</option>
 										</select>
 									</td>
 									<td>
