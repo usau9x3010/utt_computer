@@ -191,7 +191,7 @@ var EcommerceCategory = function () {
 
 var EcommerceUser = function () {
 
-    var handleCategory = function() {
+    var handleUser = function() {
         var grid = new Datatable();
             grid.init({
                 src: $("#datatable_user"),
@@ -242,7 +242,184 @@ var EcommerceUser = function () {
         //main function to initiate the module
         init: function () {
 
-            handleCategory();
+            handleUser();
+            
+        }
+
+    };
+}();
+var EcommerceCustomer = function () {
+
+    var handleCustomer = function() {
+        var grid = new Datatable();
+            grid.init({
+                src: $("#datatable_customer"),
+                onSuccess: function(grid) {
+                    // execute some code after table records loaded
+                },
+                onError: function(grid) {
+                    // execute some code on network or other general error  
+                },
+                dataTable: {  // here you can define a typical datatable settings from http://datatables.net/usage/options 
+                    "aLengthMenu": [
+                        [20, 50, 100, 150, -1],
+                        [20, 50, 100, 150, "All"] // change per page values here
+                    ],
+                    "iDisplayLength": 20, // default record count per page
+                    "bServerSide": true, // server side processing
+                    "sAjaxSource": "data/customer.php", // ajax source
+                    "aaSorting": [[ 1, "asc" ]] // set first column as a default sort by asc
+                }
+            });
+
+            // handle filter submit button click
+            grid.getTableWrapper().on('click', '.table-group-action-submit', function(e){
+                e.preventDefault();
+                var action = $(".table-group-action-input", grid.getTableWrapper());
+                if (action.val() != "" && grid.getSelectedRowsCount() > 0) {
+                    if (!confirm("Bạn chắc chắn xóa?")) {
+                        return false;
+                    }
+                    grid.addAjaxParam("sAction", "group_action");
+                    grid.addAjaxParam("sGroupActionName", action.val());
+                    var records = grid.getSelectedRows();
+                    for (var i in records) {
+                        grid.addAjaxParam(records[i]["name"], records[i]["value"]);    
+                    }
+                    grid.getDataTable().fnDraw();
+                    grid.clearAjaxParams();
+                } else if (action.val() == "") {
+                    App.alert({type: 'danger', icon: 'warning', message: 'Xin mời Lựa chọn hành động', container: grid.getTableWrapper(), place: 'prepend'});
+                } else if (grid.getSelectedRowsCount() === 0) {
+                    App.alert({type: 'danger', icon: 'warning', message: 'Bạn chưa chon đối tượng muốn xóa', container: grid.getTableWrapper(), place: 'prepend'});
+                }
+
+            });
+    }
+    return {
+
+        //main function to initiate the module
+        init: function () {
+
+            handleCustomer();
+            
+        }
+
+    };
+}();
+var EcommerceProduct = function () {
+
+    var handleProduct = function() {
+        var grid = new Datatable();
+            grid.init({
+                src: $("#datatable_product"),
+                onSuccess: function(grid) {
+                    // execute some code after table records loaded
+                },
+                onError: function(grid) {
+                    // execute some code on network or other general error  
+                },
+                dataTable: {  // here you can define a typical datatable settings from http://datatables.net/usage/options 
+                    "aLengthMenu": [
+                        [20, 50, 100, 150, -1],
+                        [20, 50, 100, 150, "All"] // change per page values here
+                    ],
+                    "iDisplayLength": 20, // default record count per page
+                    "bServerSide": true, // server side processing
+                    "sAjaxSource": "data/product.php", // ajax source
+                    "aaSorting": [[ 1, "asc" ]] // set first column as a default sort by asc
+                }
+            });
+
+            // handle filter submit button click
+            grid.getTableWrapper().on('click', '.table-group-action-submit', function(e){
+                e.preventDefault();
+                var action = $(".table-group-action-input", grid.getTableWrapper());
+                if (action.val() != "" && grid.getSelectedRowsCount() > 0) {
+                    if (!confirm("Bạn chắc chắn xóa?")) {
+                        return false;
+                    }
+                    grid.addAjaxParam("sAction", "group_action");
+                    grid.addAjaxParam("sGroupActionName", action.val());
+                    var records = grid.getSelectedRows();
+                    for (var i in records) {
+                        grid.addAjaxParam(records[i]["name"], records[i]["value"]);    
+                    }
+                    grid.getDataTable().fnDraw();
+                    grid.clearAjaxParams();
+                } else if (action.val() == "") {
+                    App.alert({type: 'danger', icon: 'warning', message: 'Xin mời Lựa chọn hành động', container: grid.getTableWrapper(), place: 'prepend'});
+                } else if (grid.getSelectedRowsCount() === 0) {
+                    App.alert({type: 'danger', icon: 'warning', message: 'Bạn chưa chon đối tượng muốn xóa', container: grid.getTableWrapper(), place: 'prepend'});
+                }
+
+            });
+    }
+    return {
+
+        //main function to initiate the module
+        init: function () {
+
+            handleProduct();
+            
+        }
+
+    };
+}();
+var EcommerceOrder = function () {
+
+    var handleOrder = function() {
+        var grid = new Datatable();
+            grid.init({
+                src: $("#datatable_order"),
+                onSuccess: function(grid) {
+                    // execute some code after table records loaded
+                },
+                onError: function(grid) {
+                    // execute some code on network or other general error  
+                },
+                dataTable: {  // here you can define a typical datatable settings from http://datatables.net/usage/options 
+                    "aLengthMenu": [
+                        [20, 50, 100, 150, -1],
+                        [20, 50, 100, 150, "All"] // change per page values here
+                    ],
+                    "iDisplayLength": 20, // default record count per page
+                    "bServerSide": true, // server side processing
+                    "sAjaxSource": "data/order.php", // ajax source
+                    "aaSorting": [[ 1, "asc" ]] // set first column as a default sort by asc
+                }
+            });
+
+            // handle filter submit button click
+            grid.getTableWrapper().on('click', '.table-group-action-submit', function(e){
+                e.preventDefault();
+                var action = $(".table-group-action-input", grid.getTableWrapper());
+                if (action.val() != "" && grid.getSelectedRowsCount() > 0) {
+                    if (!confirm("Bạn chắc chắn xóa?")) {
+                        return false;
+                    }
+                    grid.addAjaxParam("sAction", "group_action");
+                    grid.addAjaxParam("sGroupActionName", action.val());
+                    var records = grid.getSelectedRows();
+                    for (var i in records) {
+                        grid.addAjaxParam(records[i]["name"], records[i]["value"]);    
+                    }
+                    grid.getDataTable().fnDraw();
+                    grid.clearAjaxParams();
+                } else if (action.val() == "") {
+                    App.alert({type: 'danger', icon: 'warning', message: 'Xin mời Lựa chọn hành động', container: grid.getTableWrapper(), place: 'prepend'});
+                } else if (grid.getSelectedRowsCount() === 0) {
+                    App.alert({type: 'danger', icon: 'warning', message: 'Bạn chưa chon đối tượng muốn xóa', container: grid.getTableWrapper(), place: 'prepend'});
+                }
+
+            });
+    }
+    return {
+
+        //main function to initiate the module
+        init: function () {
+
+            handleOrder();
             
         }
 

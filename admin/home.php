@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['user'])){
+  header("location:login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
@@ -61,18 +68,46 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {    
    App.init(); // initlayout and core plugins
-    EcommerceUser.init();
-   <?php $page = isset($_GET['page'])?$_GET['page']:'supplier';
-$page='supplier';
+   <?php $page = isset($_GET['page'])?$_GET['page']:'order';
 
    ?>
    <?php if($page=='supplier'): ?>
-      // EcommerceSupplier.init();
+      EcommerceSupplier.init();
    <?php elseif ($page=='category'): ?>
-      // EcommerceCategory.init();
+      EcommerceCategory.init();
+      <?php elseif ($page=='order'): ?>
+      EcommerceOrder.init();
+      <?php elseif ($page=='customer'): ?>
+      EcommerceCustomer.init();
+      <?php elseif ($page=='product'): ?>
+      EcommerceProduct.init();
+      <?php elseif ($page=='user'): ?>
+      EcommerceUser.init();
    <?php endif;?>
 });
-</script>
 
+</script>
+<script type="text/javascript">
+    $(document).ready(function($){
+        $('input[type=radio][name=loai_sp]').change(function() {
+            var type = $('input[name=loai_sp]:checked').val();
+            var sp_id = $('#sp_id').val();
+            $.ajax({
+                method:"post",
+                data:{type:type,id:sp_id},
+                dateType: "json",
+                url:"data/ajax.php",
+                success:function(data){
+                    if (data) {
+                    	$("#ncc,#cat").empty();
+                    	// console.log(data.ncc);
+                    	$("#ncc").html(data.ncc);
+                    	$("#cat").html(data.cat);
+                    }
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

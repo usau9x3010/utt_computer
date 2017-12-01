@@ -32,7 +32,13 @@ class Connect
         $query = $this->_cnn->query($sql);
         if (!$query) {
             echo mysqli_error($this->_cnn);
+            echo $sql;
         }
+
+    }
+    function getlastid()
+    {
+         return mysqli_insert_id($this->_cnn);
     }
 
     function update($table, $data_update, $conditions = '')
