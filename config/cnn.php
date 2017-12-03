@@ -85,6 +85,7 @@ class Connect
         $result = $this->_cnn->query($sql);
         if (!$result) {
             echo mysqli_error($this->_cnn);
+            echo $sql;
         } else {
             while ($row = $result->fetch_array()) {
                 $data[] = $row;

@@ -5,7 +5,7 @@ $data = $db->select('cau_hinh');
 if ($_POST) {
     $data_post = $_POST;
     if ($_FILES['logo']['name'] != NULL) {
-        $path = "../img/page/";
+        $path = "img/page/";
         $tmp_name = $_FILES['logo']['tmp_name'];
         $name = $_FILES['logo']['name'];
         $type_img = explode(".", $name)[1];
@@ -13,7 +13,7 @@ if ($_POST) {
         if (file_exists($path . $new_name)) {
             unlink($path . $new_name);
         }
-        move_uploaded_file($tmp_name, $path . $new_name);
+        move_uploaded_file($tmp_name, '../'.$path . $new_name);
         $data_post['logo'] = $path . $new_name;
     }
     if (count($data) != 0) {
@@ -116,7 +116,7 @@ if (count($data) != 0) {
                                                            oninvalid="this.setCustomValidity('Xin mời chọn ảnh')"
                                                            oninput="setCustomValidity('')">
                                                     <span class="help-block">
-															<a href="<?php echo $data['logo'] ?>"
+															<a href="../<?php echo $data['logo'] ?>"
                                                                class="fancybox-button" data-rel="fancybox-button">
 																<img class="img-responsive"
                                                                      src="<?php echo $data['logo'] ?>" alt=""

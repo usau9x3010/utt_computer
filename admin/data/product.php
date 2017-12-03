@@ -46,7 +46,7 @@ foreach ($data as $key => $row) {
       '<input type="checkbox" name="id[]" value="'.$row['id'].'">',
       $row['id'],
  '<img class="img-responsive"
-           src="'.$row['anh'].'" alt=""
+           src="../'.$row['anh'].'" alt=""
            style="width: 100px">',
 $row['ten_sp'],
       $row['gia'],

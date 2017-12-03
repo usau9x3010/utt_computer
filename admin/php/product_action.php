@@ -13,9 +13,10 @@ if(isset($_GET['action']) && $_GET['action']=='del'){
 if ($_POST) {
     $data_post = $_POST;
     $cats = $data_post['cat'];
+    $data_post['mo_ta'] = htmlspecialchars($data_post['mo_ta']);
     unset($data_post['cat']);
     if ($_FILES['anh']['name'] != NULL) {
-        $path = "../img/product/";
+        $path = "img/product/";
         $tmp_name = $_FILES['anh']['tmp_name'];
         $name = $_FILES['anh']['name'];
         $type_img = explode(".", $name)[1];
@@ -23,7 +24,7 @@ if ($_POST) {
         if (file_exists($path . $new_name)) {
             unlink($path . $new_name);
         }
-        move_uploaded_file($tmp_name, $path . $new_name);
+        move_uploaded_file($tmp_name, "../".$path . $new_name);
         $data_post['anh'] = $path . $new_name;
     }
     // var_dump($data_post);die;
