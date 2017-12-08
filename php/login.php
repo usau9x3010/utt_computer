@@ -44,7 +44,7 @@ if(isset($_SESSION['cus']) && !empty($_SESSION['cus']))  echo '<script>window.lo
                     </div>
                     <div class="row">
                       <div class="col-lg-8 col-md-offset-4 padding-left-0">
-                        <a href="index.php?page=signup">Đăng ký</a>
+                        <a href="index.php?page=singup">Đăng ký</a>
                       </div>
                     </div>
                     <div class="row">

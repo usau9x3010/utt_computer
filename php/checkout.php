@@ -14,7 +14,7 @@ if (isset($_POST) && !empty($_POST)) {
   $db->insert('don_hang', $post_data);
   $id_dh =  $db->getlastid();
   foreach ($cart as $key => $value) {
-    if ($key=='total' || $key=='qty_total' ) {
+    if ($key=='total' || $key=='qty_total' ) 
       continue;
       $data_ct =array();
       $data_ct['id_dh'] = $id_dh;
@@ -23,8 +23,13 @@ if (isset($_POST) && !empty($_POST)) {
       $data_ct['sl'] = $value['qty'];
       $data_ct['tong'] = $value['row_total'];
       $data_ct['gia'] = $value['price'];
-      $db->insert('ct_don_hang', $data_ct);
-    }
+      if ($db->insert('ct_don_hang', $data_ct)) {
+         $con_update = " `id` = '{$key}'";
+         $sl = $db->select('san_pham','*',$con_update)[0]['sl'];
+          $sl = $sl - $value['qty'];
+          $db->update('san_pham',array('sl'=>$sl),$con_update);
+      }
+    
   }
   unset($_SESSION['cart']);
   echo '<script>window.location.href = "index.php?page=success"</script>';

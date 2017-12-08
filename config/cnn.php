@@ -1,8 +1,4 @@
 <?php
-
-/**
- *
- */
 class Connect
 {
     public $_host = 'localhost';
@@ -33,8 +29,9 @@ class Connect
         if (!$query) {
             echo mysqli_error($this->_cnn);
             echo $sql;
+            return false;
         }
-
+        return true;
     }
     function getlastid()
     {
@@ -57,7 +54,10 @@ class Connect
         if (!$query) {
             echo mysqli_error($this->_cnn);
             echo $sql;
+            return false;
         }
+        // echo $sql;die;
+        return true;
     }
 
     function delete($table, $condition)
@@ -66,7 +66,10 @@ class Connect
         $query = $this->_cnn->query($sql);
         if (!$query) {
             echo mysqli_error($this->_cnn);
+            echo $sql;
+            return false;
         }
+        return true;
     }
 
     function select($table, $cols = '*', $condition = '',$limit = '')
@@ -86,6 +89,7 @@ class Connect
         if (!$result) {
             echo mysqli_error($this->_cnn);
             echo $sql;
+            return false;
         } else {
             while ($row = $result->fetch_array()) {
                 $data[] = $row;
